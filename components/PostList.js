@@ -1,7 +1,9 @@
 import Link from 'next/link'
+import moment from 'moment'
 
 export default function PostList({ posts }) {
   if (posts === 'undefined') return null
+  moment.locale("es")
 
   return (
     <div>
@@ -12,7 +14,7 @@ export default function PostList({ posts }) {
             return (
               <li key={post.slug}>
                 <Link href={{ pathname: `/post/${post.slug}` }}>
-                  <a>{post.frontmatter.title} {post.frontmatter.epoch}</a>
+                  <a>{post.frontmatter.title} <i>{moment(post.frontmatter.date, "YYYY-MM-DD").fromNow()}</i></a>
                 </Link>
               </li>
             )

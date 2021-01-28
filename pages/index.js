@@ -2,10 +2,13 @@ import matter from 'gray-matter'
 
 import Layout from '@components/Layout'
 import PostList from '@components/PostList'
+import MainPost from '@components/MainPost'
 
 const Index = ({ posts, title, description, ...props }) => {
 
-  const sorted = posts.slice().sort((a, b) => b.frontmatter.epoch - a.frontmatter.epoch)
+  const sorted = posts
+    .slice()
+    .sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf())
 
   return (
     <Layout pageTitle={title}>
@@ -14,7 +17,8 @@ const Index = ({ posts, title, description, ...props }) => {
         {description}
       </p>
       <main>
-        <PostList posts={sorted} />
+        <MainPost post={sorted[0]} />
+        <PostList posts={sorted.slice(1, 5)} />
       </main>
     </Layout>
   )
