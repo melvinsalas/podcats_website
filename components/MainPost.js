@@ -1,16 +1,33 @@
-import Link from 'next/link'
+import Link from "next/link"
+import moment from "moment"
 
 export default function MainPost({ post }) {
-    if (post === 'undefined') return null
+  moment.locale("es")
+  if (post === "undefined") return null
 
-    return (
+  return (
+    <div>
+      <hr />
+      {!post && <div>No post!</div>}
+      {post && (
         <div>
-            {!post && <div>No post!</div>}
-            {post &&
-                <Link href={{ pathname: `/post/${post.slug}` }}>
-                    <a><h1>{post.frontmatter.title}</h1></a>
-                </Link>
-            }
+          <Link href={{ pathname: `/post/${post.slug}` }}>
+            <a>
+              <h1>{post.frontmatter.title}</h1>
+            </a>
+          </Link>
+          <p>
+            {moment(
+              post.frontmatter.date,
+              "YYYY-MM-DDTHH:mm:ss.sssZ"
+            ).fromNow()}{" "}
+            / {post.frontmatter.author}
+          </p>
+          <p>{post.frontmatter.summary}</p>
+          <audio src={post.frontmatter.url} controls />
         </div>
-    )
+      )}
+      <hr />
+    </div>
+  )
 }

@@ -1,26 +1,29 @@
-import Link from 'next/link'
-import matter from 'gray-matter'
-import ReactMarkdown from 'react-markdown'
+import matter from "gray-matter"
+import ReactMarkdown from "react-markdown"
+import ReactAudioPlayer from "react-audio-player"
+import moment from "moment"
 
-import Layout from '@components/Layout'
+import Layout from "@components/Layout"
 
 export default function BlogPost({ siteTitle, frontmatter, markdownBody }) {
   if (!frontmatter) return <></>
+  moment.locale("es")
 
   return (
-      <Layout pageTitle={`${siteTitle} | ${frontmatter.title}`}>
-        <Link href="/">
-          <a>Back to post list</a>
-        </Link>
-        <article>
-          <h1>{frontmatter.title}</h1>
-          <p>Episodio {frontmatter.episode}</p>
-          <p>Fecha {frontmatter.date}</p>
-          <div>
-            <ReactMarkdown source={markdownBody} />
-          </div>
-        </article>
-      </Layout>
+    <Layout pageTitle={`${siteTitle} | ${frontmatter.title}`}>
+      <article>
+        <h1>{frontmatter.title}</h1>
+        <ReactAudioPlayer src={frontmatter.url} controls />
+        <p>
+          {moment(frontmatter.date, "YYYY-MM-DDTHH:mm:ss.sssZ").format("LL")}
+          {" | "}
+          {frontmatter.author}
+        </p>
+        <div>
+          <ReactMarkdown source={markdownBody} />
+        </div>
+      </article>
+    </Layout>
   )
 }
 
@@ -44,12 +47,12 @@ export async function getStaticPaths() {
   const blogSlugs = ((context) => {
     const keys = context.keys()
     const data = keys.map((key, index) => {
-      let slug = key.replace(/^.*[\\\/]/, '').slice(0, -3)
+      let slug = key.replace(/^.*[\\\/]/, "").slice(0, -3)
 
       return slug
     })
     return data
-  })(require.context('../../posts', true, /\.md$/))
+  })(require.context("../../posts", true, /\.md$/))
 
   const paths = blogSlugs.map((slug) => `/post/${slug}`)
 

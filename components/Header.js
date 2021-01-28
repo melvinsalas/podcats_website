@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from "next/link"
 
 export default function Header() {
   return (
@@ -6,10 +6,15 @@ export default function Header() {
       <header className="header">
         <nav className="nav">
           <Link href="/">
-            <a>My Blog</a>
+            <a>Inicio</a>
           </Link>
+          {" | "}
+          <Link href="/episodios">
+            <a>Episodios</a>
+          </Link>
+          {" | "}
           <Link href="/about">
-            <a>About</a>
+            <a>Contacto</a>
           </Link>
         </nav>
       </header>

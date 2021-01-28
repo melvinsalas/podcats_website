@@ -16,8 +16,8 @@ const Index = ({ posts, title, description, ...props }) => {
   return (
     <Layout pageTitle={title}>
       <main>
-        <MainPost post={sorted[0]} />
-        <PostList posts={sorted.slice(1, 4)} />
+        <h1>Lista de Episodios</h1>
+        <PostList posts={sorted} />
       </main>
     </Layout>
   )
